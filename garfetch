@@ -62,7 +62,7 @@ function main() {
     done
 
     [ $i -gt 0 ] \
-      && [ $i -lt $((${#systemInfo[@]} + 1)) ] && line+="    |" \
+      && [ $i -lt $((${#systemInfo[@]} + 1)) ] && line+="  |" \
       && { [ -n "${systemInfo[i - 1]}" ] && line+=" ${systemInfo[i - 1]}"; }
     echo "$line"
   done
