@@ -16,6 +16,7 @@ AT_SIGN_COLOR=$GREEN
 HOSTNAME_COLOR=$CYAN
 ARROW_COLOR=$MAGENTA
 TITLE_COLOR=$BLUE
+ART_COLOR=$YELLOW
 
 CONFIG="garfetch.conf"
 ASCII="ascii/garfield2.txt"
@@ -82,11 +83,11 @@ function main() {
       line+=" "
     done
 
-    printf "%s" "$line"
+    printf "${ART_COLOR}%s${NC}" "$line"
     [ $i -gt 0 ] \
-      && [ $i -lt $((${#systemInfo[@]} + 1)) ] && printf "  $SEPARATOR"
-    [ $i -gt 0 ] && [ -n "${systemInfo[i - 1]}" ] \
-      && printf " ${systemInfo[i - 1]}\n" \
+      && [ $i -lt $((${#systemInfo[@]} + 1)) ] && printf "  $SEPARATOR" \
+      && [ -n "${systemInfo[i - 1]}" ] \
+      && printf  " ${systemInfo[i - 1]}\n" \
       || printf "\n"
   done
 }
