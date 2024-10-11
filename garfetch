@@ -22,6 +22,7 @@ CONFIG="garfetch.conf"
 ASCII="ascii/garfield2.txt"
 SEPARATOR="|"
 ARROW="->"
+COLOR_SAMPLE="-o-"
 OPERATING_SYSTEM=true
 KERNEL=true
 DESKTOP=true
@@ -87,6 +88,7 @@ function main() {
     done
 
     printf "${ART_COLOR}%s${NC}" "$line"
+    [ $i -eq $((${#systemInfo[@]} + 1)) ] && printf "  ${RED}%s${GREEN}%s${YELLOW}%s${BLUE}%s${MAGENTA}%s${CYAN}%s${NC}" "$COLOR_SAMPLE" "$COLOR_SAMPLE" "$COLOR_SAMPLE" "$COLOR_SAMPLE" "$COLOR_SAMPLE" "$COLOR_SAMPLE"
     [ $i -eq 1 ] \
       && printf "  ${EDGE_COLOR}{${USERNAME_COLOR}$USER${AT_SIGN_COLOR}@${HOSTNAME_COLOR}$(getHostname)${RED}}${NC}"
     [ $i -gt 1 ] \
@@ -94,6 +96,7 @@ function main() {
       && [ -n "${systemInfo[i - 1]}" ] \
       && printf  "${systemInfo[i - 1]}\n" \
       || printf "\n"
+
   done
 }
 
