@@ -94,7 +94,8 @@ function main() {
         "$COLOR_SAMPLE" "$COLOR_SAMPLE" "$COLOR_SAMPLE" "$COLOR_SAMPLE" \
         "$COLOR_SAMPLE" "$COLOR_SAMPLE"
     elif [ $i -eq 1 ]; then
-      printf "  ${EDGE_COLOR}{${USERNAME_COLOR}$USER${AT_SIGN_COLOR}@${HOSTNAME_COLOR}$(getHostname)${RED}}${NC}"
+      printf "  ${EDGE_COLOR}{${USERNAME_COLOR}%s${AT_SIGN_COLOR}@${HOSTNAME_COLOR}%s${RED}}${NC}" \
+        "$USER" "$(getHostname)"
     elif [ $i -gt 1 ]; then
       [ $i -lt $((${#systemInfo[@]} + 1)) ] && printf "  $SEPARATOR" \
       && [ -n "${systemInfo[i - 1]}" ] \
