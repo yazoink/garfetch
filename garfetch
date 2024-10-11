@@ -2,13 +2,13 @@
 
 # dependencies: glxinfo
 
-RED='\033[0;31m'      # Red
-GREEN='\033[0;32m'    # Green
-YELLOW='\033[0;33m'   # Yellow
-BLUE='\033[0;34m'     # Blue
-MAGENTA='\033[0;35m'  # Magenta
-CYAN='\033[0;36m'     # Cyan
-NC='\033[0m'          # No Color (reset)
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[0;33m'
+BLUE='\033[0;34m'
+MAGENTA='\033[0;35m'
+CYAN='\033[0;36m'
+NC='\033[0m'
 
 EDGE_COLOR=$RED
 USERNAME_COLOR=$YELLOW
@@ -45,6 +45,7 @@ function main() {
   done
 
   [ -f "$CONFIG" ] && . "$CONFIG"
+  [ -f "~/.config/garfetch/$CONFIG" ] && . "$CONFIG"
   ARROW="${ARROW_COLOR}$ARROW${NC}"
   SEPARATOR="${EDGE_COLOR}$SEPARATOR${NC}"
 
@@ -52,9 +53,10 @@ function main() {
 
   lastSystemInfoIndex=0
   systemInfo[lastSystemInfoIndex]="${EDGE_COLOR}{${USERNAME_COLOR}$(getUsername)"
-  systemInfo[lastSystemInfoIndex]+="${AT_SIGN_COLOR}@${HOSTNAME_COLOR}$(getHostname)${RED}}${NC}" && ((lastSystemInfoIndex++))
+  systemInfo[lastSystemInfoIndex]+="${AT_SIGN_COLOR}@${HOSTNAME_COLOR}$(getHostname)${RED}}${NC}" \
+    && ((lastSystemInfoIndex++))
   [ "$OPERATING_SYSTEM" == true ] \
-    && { systemInfo[lastSystemInfoIndex]="$ARROW ${TITLE_COLOR}Operating System:${NC}${NC} $(getOperatingSystem)" \
+    && { systemInfo[lastSystemInfoIndex]="$ARROW ${TITLE_COLOR}Operating System:${NC} $(getOperatingSystem)" \
       && ((lastSystemInfoIndex++)); }
   [ "$KERNEL" == true ] \
     &&  { systemInfo[lastSystemInfoIndex]="$ARROW ${TITLE_COLOR}Kernel:${NC} $(getKernel)" \
