@@ -35,7 +35,7 @@ RAM=true
 It's pretty self-explanatory.
 Look at the screenshot if you're confused about any of the decorations.
 
-## todo
+## To-Do
 NixOS module.
 
 ## Credits
