@@ -1,5 +1,5 @@
 # garfetch
-![20241012_01:13:04_screenshot](https://github.com/user-attachments/assets/dafe4e5d-e6c5-428a-87cd-c7debb46da53)
+![20241012_02:16:32_screenshot](https://github.com/user-attachments/assets/96df7f36-8bf5-46d3-b1c2-0dd28931e004)
 
 ## Dependencies
 The only dependency is `glxinfo`. The package is called `mesa-utils` on most distros.
@@ -20,6 +20,10 @@ ASCII="ascii/garfield2.txt"
 SEPARATOR="|"
 ARROW="-> "
 COLOR_SAMPLE="-*-"
+COLOR_SAMPLE_BEFORE="\`"
+COLOR_SAMPLE_AFTER=""
+USER_AT_HOST_BEFORE=" _-{"
+USER_AT_HOST_AFTER="}-_"
 
 # which information to print
 OPERATING_SYSTEM=true
