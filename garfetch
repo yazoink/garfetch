@@ -54,7 +54,7 @@ function main() {
 
   declare -a systemInfo
 
-  lastSystemInfoIndex=0
+  lastSystemInfoIndex=1
   [ "$OPERATING_SYSTEM" == true ] \
     && { systemInfo[lastSystemInfoIndex]="$ARROW ${TITLE_COLOR}Operating System:${NC} $(getOperatingSystem)" \
       && ((lastSystemInfoIndex++)); }
