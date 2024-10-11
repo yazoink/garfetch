@@ -50,7 +50,6 @@ function main() {
   done
 
   ARROW="${ARROW_COLOR}$ARROW${NC}"
-  SEPARATOR="${EDGE_COLOR}$SEPARATOR${NC}"
 
   declare -a systemInfo
 
