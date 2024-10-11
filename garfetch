@@ -139,10 +139,6 @@ function getRAM() {
   echo "$ram"
 }
 
-function getShell() {
-  echo "$SHELL"
-}
-
 function getOperatingSystem() {
   if . /etc/os-release; then
     echo "$PRETTY_NAME"
