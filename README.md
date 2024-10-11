@@ -13,7 +13,7 @@ The only dependency is `glxinfo`. The package is called `mesa-utils` on most dis
 The script looks for `garfetch.conf` in `~/.config/garfetch` or in the same directory as the script.
 The default config looks like this:
 ```bash
-# path to ascii art
+# path to ascii art (relative to the script's location)
 ASCII="ascii/garfield2.txt"
 
 # decorations
