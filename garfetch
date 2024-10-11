@@ -89,15 +89,18 @@ function main() {
     done
 
     printf "${ART_COLOR}%s${NC}" "$line"
-    [ $i -eq $((${#systemInfo[@]} + 1)) ] && printf "  ${RED}%s${GREEN}%s${YELLOW}%s${BLUE}%s${MAGENTA}%s${CYAN}%s${NC}" "$COLOR_SAMPLE" "$COLOR_SAMPLE" "$COLOR_SAMPLE" "$COLOR_SAMPLE" "$COLOR_SAMPLE" "$COLOR_SAMPLE"
-    [ $i -eq 1 ] \
-      && printf "  ${EDGE_COLOR}{${USERNAME_COLOR}$USER${AT_SIGN_COLOR}@${HOSTNAME_COLOR}$(getHostname)${RED}}${NC}"
-    [ $i -gt 1 ] \
-      && [ $i -lt $((${#systemInfo[@]} + 1)) ] && printf "  $SEPARATOR" \
+    if [ $i -eq $((${#systemInfo[@]} + 1)) ]; then
+      printf "  ${RED}%s${GREEN}%s${YELLOW}%s${BLUE}%s${MAGENTA}%s${CYAN}%s${NC}" \
+        "$COLOR_SAMPLE" "$COLOR_SAMPLE" "$COLOR_SAMPLE" "$COLOR_SAMPLE" \
+        "$COLOR_SAMPLE" "$COLOR_SAMPLE"
+    elif [ $i -eq 1 ]; then
+      printf "  ${EDGE_COLOR}{${USERNAME_COLOR}$USER${AT_SIGN_COLOR}@${HOSTNAME_COLOR}$(getHostname)${RED}}${NC}"
+    elif [ $i -gt 1 ]; then
+      [ $i -lt $((${#systemInfo[@]} + 1)) ] && printf "  $SEPARATOR" \
       && [ -n "${systemInfo[i - 1]}" ] \
-      && printf  "${systemInfo[i - 1]}\n" \
-      || printf "\n"
-
+      && printf  "${systemInfo[i - 1]}"
+    fi
+    printf "\n"
   done
 }
 
