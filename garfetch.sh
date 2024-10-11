@@ -115,7 +115,9 @@ function getOperatingSystem() {
 }
 
 function getTerminal() {
-  terminal="$(ps -p $PPID -o comm= || echo "Unknown")"
+  [ -n "$TERM" ] \
+    && terminal="$TERM" \
+    || terminal="Unknown"
   echo "$terminal"
 }
 
