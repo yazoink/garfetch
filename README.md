@@ -18,7 +18,7 @@ ASCII="ascii/garfield2.txt"
 
 # decorations
 SEPARATOR="|"
-ARROW="->"
+ARROW="-> "
 COLOR_SAMPLE="-*-"
 
 # which information to print
