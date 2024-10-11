@@ -65,7 +65,7 @@ function main() {
     && { systemInfo[lastSystemInfoIndex]="${TITLE_COLOR}Terminal:${NC} $(getTerminal)" \
       && ((lastSystemInfoIndex++)); }
   [ "$TERMINAL_SHELL" == true ] \
-    && { systemInfo[lastSystemInfoIndex]="${TITLE_COLOR}Shell:${NC} $(echo $SHELL | sed 's/.*\///')" \
+    && { systemInfo[lastSystemInfoIndex]="${TITLE_COLOR}Shell:${NC} $(echo "$SHELL" | sed 's/.*\///')" \
       && ((lastSystemInfoIndex++)); }
   [ "$CPU" == true ] \
     && { systemInfo[lastSystemInfoIndex]="${TITLE_COLOR}CPU:${NC} $(getCPU)" \
