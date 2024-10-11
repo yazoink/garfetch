@@ -45,8 +45,8 @@ function main() {
       && longestLineLength=$currentLineLength
   done
 
-  [ -f "~/.config/garfetch/$CONFIG" ] && . "$CONFIG"
   [ -f "./$CONFIG" ] && . "$CONFIG"
+  [ -f "~/.config/garfetch/$CONFIG" ] && . "$CONFIG"
   ARROW="${ARROW_COLOR}$ARROW${NC}"
   SEPARATOR="${EDGE_COLOR}$SEPARATOR${NC}"
 
