@@ -7,6 +7,7 @@ ASCII="ascii/garfield2.txt"
 OPERATING_SYSTEM=true
 KERNEL=true
 DESKTOP=true
+TERMINAL=true
 CPU=true
 GPU=true
 RAM=true
@@ -38,6 +39,9 @@ function main() {
       && ((lastSystemInfoIndex++)); }
   [ "$DESKTOP" == true ] \
     && { systemInfo[lastSystemInfoIndex]="Desktop: $(getDesktop)" \
+      && ((lastSystemInfoIndex++)); }
+  [ "$TERMINAL" == true ] \
+    && { systemInfo[lastSystemInfoIndex]="Terminal: $(getTerminal)" \
       && ((lastSystemInfoIndex++)); }
   [ "$CPU" == true ] \
     && { systemInfo[lastSystemInfoIndex]="CPU: $(getCPU)" \
@@ -108,6 +112,11 @@ function getOperatingSystem() {
     operatingSystem="$(uname -o || echo "Unknown")"
     echo "$operatingSystem"
   fi
+}
+
+function getTerminal() {
+  terminal="$(ps -p $PPID -o comm= || echo "Unknown")"
+  echo "$terminal"
 }
 
 function getUsername() {
