@@ -23,6 +23,10 @@ ASCII="ascii/garfield2.txt"
 SEPARATOR="|"
 ARROW="-> "
 COLOR_SAMPLE="-*-"
+COLOR_SAMPLE_BEFORE=" "
+COLOR_SAMPLE_AFTER=" "
+USER_AT_HOST_BEFORE="_-{"
+USER_AT_HOST_AFTER="}-_"
 OPERATING_SYSTEM=true
 KERNEL=true
 DESKTOP=true
@@ -87,12 +91,13 @@ function main() {
 
     printf "${ART_COLOR}%s${NC}" "$line"
     if [ $i -eq $((${#systemInfo[@]} + 2)) ]; then
-      printf "  ${RED}%s${GREEN}%s${YELLOW}%s${BLUE}%s${MAGENTA}%s${CYAN}%s${NC}" \
-        "$COLOR_SAMPLE" "$COLOR_SAMPLE" "$COLOR_SAMPLE" "$COLOR_SAMPLE" \
-        "$COLOR_SAMPLE" "$COLOR_SAMPLE"
+      printf "  ${EDGE_COLOR}%s${RED}%s${GREEN}%s${YELLOW}%s${BLUE}%s${MAGENTA}%s${CYAN}%s${EDGE_COLOR}%s${NC}" \
+        "$COLOR_SAMPLE_BEFORE" "$COLOR_SAMPLE" "$COLOR_SAMPLE" \
+        "$COLOR_SAMPLE" "$COLOR_SAMPLE" "$COLOR_SAMPLE" \
+        "$COLOR_SAMPLE" "$COLOR_SAMPLE_AFTER"
     elif [ $i -eq 1 ]; then
-      printf "  ${EDGE_COLOR}{${USERNAME_COLOR}%s${AT_SIGN_COLOR}@${HOSTNAME_COLOR}%s${RED}}${NC}" \
-        "$USER" "$(getHostname)"
+      printf "  ${EDGE_COLOR}%s${USERNAME_COLOR}%s${AT_SIGN_COLOR}@${HOSTNAME_COLOR}%s${RED}%s${NC}" \
+        "$USER_AT_HOST_BEFORE" "$USER" "$(getHostname)" "$USER_AT_HOST_AFTER"
     elif [ $i -gt 1 ]; then
       [ $i -lt $((${#systemInfo[@]} + 2)) ] \
         && printf "  ${EDGE_COLOR}%s${ARROW_COLOR}%s${NC}" \
