@@ -1,5 +1,5 @@
 # garfetch
-![20241012_00:52:21_screenshot](https://github.com/user-attachments/assets/1973f652-a187-4d0e-a2d0-6078b11f198e)
+![20241012_01:13:04_screenshot](https://github.com/user-attachments/assets/dafe4e5d-e6c5-428a-87cd-c7debb46da53)
 
 ## Dependencies
 The only dependency is `glxinfo`. The package is called `mesa-utils` on most distros.
@@ -34,6 +34,9 @@ RAM=true
 
 It's pretty self-explanatory.
 Look at the screenshot if you're confused about any of the decorations.
+
+## todo
+NixOS module.
 
 ## Credits
 The ascii art was taken from [here](https://www.asciiart.eu/comics/garfield).
