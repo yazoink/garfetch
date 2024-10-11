@@ -10,6 +10,13 @@ MAGENTA='\033[0;35m'  # Magenta
 CYAN='\033[0;36m'     # Cyan
 NC='\033[0m'          # No Color (reset)
 
+EDGE_COLOR=$RED
+USERNAME_COLOR=$YELLOW
+AT_SIGN_COLOR=$GREEN
+HOSTNAME_COLOR=$CYAN
+ARROW_COLOR=$MAGENTA
+TITLE_COLOR=$BLUE
+
 CONFIG="garfetch.conf"
 ASCII="ascii/garfield2.txt"
 SEPARATOR="|"
@@ -21,8 +28,6 @@ TERMINAL=true
 CPU=true
 GPU=true
 RAM=true
-[ -f "$CONFIG" ] && . "$CONFIG"
-ARROW="${BLUE}$ARROW${NC}"
 
 function main() {
   [ -f "$ASCII" ] \
@@ -34,34 +39,39 @@ function main() {
   longestLineLength=0
   for line in "${asciiArray[@]}"; do
     currentLineLength=${#line}
-    [ $currentLineLength -gt $longestLineLength ] && longestLineLength=$currentLineLength
+    [ $currentLineLength -gt $longestLineLength ] \
+      && longestLineLength=$currentLineLength
   done
+
+  [ -f "$CONFIG" ] && . "$CONFIG"
+  ARROW="${ARROW_COLOR}$ARROW${NC}"
+  SEPARATOR="${EDGE_COLOR}$SEPARATOR${NC}"
 
   declare -a systemInfo
 
   lastSystemInfoIndex=0
-  systemInfo[lastSystemInfoIndex]="{${RED}$(getUsername)"
-  systemInfo[lastSystemInfoIndex]+="${YELLOW}@${CYAN}$(getHostname)${NC}}" && ((lastSystemInfoIndex++))
+  systemInfo[lastSystemInfoIndex]="${EDGE_COLOR}{${USERNAME_COLOR}$(getUsername)"
+  systemInfo[lastSystemInfoIndex]+="${AT_SIGN_COLOR}@${HOSTNAME_COLOR}$(getHostname)${RED}}${NC}" && ((lastSystemInfoIndex++))
   [ "$OPERATING_SYSTEM" == true ] \
-    && { systemInfo[lastSystemInfoIndex]="$ARROW ${MAGENTA}Operating System:${NC} $(getOperatingSystem)" \
+    && { systemInfo[lastSystemInfoIndex]="$ARROW ${TITLE_COLOR}Operating System:${NC}${NC} $(getOperatingSystem)" \
       && ((lastSystemInfoIndex++)); }
   [ "$KERNEL" == true ] \
-    &&  { systemInfo[lastSystemInfoIndex]="$ARROW Kernel: $(getKernel)" \
+    &&  { systemInfo[lastSystemInfoIndex]="$ARROW ${TITLE_COLOR}Kernel:${NC} $(getKernel)" \
       && ((lastSystemInfoIndex++)); }
   [ "$DESKTOP" == true ] \
-    && { systemInfo[lastSystemInfoIndex]="$ARROW Desktop: $(getDesktop)" \
+    && { systemInfo[lastSystemInfoIndex]="$ARROW ${TITLE_COLOR}Desktop:${NC} $(getDesktop)" \
       && ((lastSystemInfoIndex++)); }
   [ "$TERMINAL" == true ] \
-    && { systemInfo[lastSystemInfoIndex]="$ARROW Terminal: $(getTerminal)" \
+    && { systemInfo[lastSystemInfoIndex]="$ARROW ${TITLE_COLOR}Terminal:${NC} $(getTerminal)" \
       && ((lastSystemInfoIndex++)); }
   [ "$CPU" == true ] \
-    && { systemInfo[lastSystemInfoIndex]="$ARROW CPU: $(getCPU)" \
+    && { systemInfo[lastSystemInfoIndex]="$ARROW ${TITLE_COLOR}CPU:${NC} $(getCPU)" \
       && ((lastSystemInfoIndex++)); }
   [ "$GPU" == true ] \
-    && { systemInfo[lastSystemInfoIndex]="$ARROW GPU: $(getGPU)" \
+    && { systemInfo[lastSystemInfoIndex]="$ARROW ${TITLE_COLOR}GPU:${NC} $(getGPU)" \
       && ((lastSystemInfoIndex++)); }
   [ "$RAM" == true ] \
-    && { systemInfo[lastSystemInfoIndex]="$ARROW Memory: $(getRAM)" \
+    && { systemInfo[lastSystemInfoIndex]="$ARROW ${TITLE_COLOR}Memory:${NC} $(getRAM)" \
       && ((lastSystemInfoIndex++)); }
 
   for ((i = 0; i < ${#asciiArray[@]}; i++)); do
@@ -72,10 +82,12 @@ function main() {
       line+=" "
     done
 
+    printf "%s" "$line"
     [ $i -gt 0 ] \
-      && [ $i -lt $((${#systemInfo[@]} + 1)) ] && line+="  $SEPARATOR" \
-      && { [ -n "${systemInfo[i - 1]}" ] && line+=" ${systemInfo[i - 1]}"; }
-    echo -e "$line"
+      && [ $i -lt $((${#systemInfo[@]} + 1)) ] && printf "  $SEPARATOR"
+    [ $i -gt 0 ] && [ -n "${systemInfo[i - 1]}" ] \
+      && printf " ${systemInfo[i - 1]}\n" \
+      || printf "\n"
   done
 }
 
