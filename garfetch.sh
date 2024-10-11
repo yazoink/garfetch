@@ -6,10 +6,11 @@ CONFIG="garfetch.conf"
 ASCII="ascii/garfield2.txt"
 OPERATING_SYSTEM=true
 KERNEL=true
+DESKTOP=true
 CPU=true
 GPU=true
 RAM=true
-. "$CONFIG"
+[ -f "$CONFIG" ] && . "$CONFIG"
 
 function main() {
   [ -f "$ASCII" ] \
@@ -28,23 +29,31 @@ function main() {
 
   lastSystemInfoIndex=0
   systemInfo[lastSystemInfoIndex]="$(getUsername)"
-  systemInfo[lastSystemInfoIndex]+="@$(getHostName)" && ((lastSystemInfoIndex++))
+  systemInfo[lastSystemInfoIndex]+="@$(getHostname)" && ((lastSystemInfoIndex++))
   [ "$OPERATING_SYSTEM" == true ] \
-    && { systemInfo[lastSystemInfoIndex]="Operating System: $(getOperatingSystem)" && ((lastSystemInfoIndex++)); }
+    && { systemInfo[lastSystemInfoIndex]="Operating System: $(getOperatingSystem)" \
+      && ((lastSystemInfoIndex++)); }
   [ "$KERNEL" == true ] \
-    &&  { systemInfo[lastSystemInfoIndex]="Kernel: $(getKernel)" && ((lastSystemInfoIndex++)); }
+    &&  { systemInfo[lastSystemInfoIndex]="Kernel: $(getKernel)" \
+      && ((lastSystemInfoIndex++)); }
+  [ "$DESKTOP" == true ] \
+    && { systemInfo[lastSystemInfoIndex]="Desktop: $(getDesktop)" \
+      && ((lastSystemInfoIndex++)); }
   [ "$CPU" == true ] \
-    && { systemInfo[lastSystemInfoIndex]="CPU: $(getCpu)" && ((lastSystemInfoIndex++)); }
+    && { systemInfo[lastSystemInfoIndex]="CPU: $(getCPU)" \
+      && ((lastSystemInfoIndex++)); }
   [ "$GPU" == true ] \
-    && { systemInfo[lastSystemInfoIndex]="GPU: $(getGpu)" && ((lastSystemInfoIndex++)); }
+    && { systemInfo[lastSystemInfoIndex]="GPU: $(getGPU)" \
+      && ((lastSystemInfoIndex++)); }
   [ "$RAM" == true ] \
-    && { systemInfo[lastSystemInfoIndex]="Memory: $(getRam)" && ((lastSystemInfoIndex++)); }
+    && { systemInfo[lastSystemInfoIndex]="Memory: $(getRAM)" \
+      && ((lastSystemInfoIndex++)); }
 
   for ((i = 0; i < ${#systemInfo[@]}; i++)) do
     echo "$i: ${systemInfo[i]}"
   done
 
-  for ((i = 0; i < ${#asciiArray[@]}; i++)); do # for number of ascii lines to print
+  for ((i = 0; i < ${#asciiArray[@]}; i++)); do
     line="${asciiArray[$i]}" 
 
     spaces=$((longestLineLength - ${#line}))
@@ -59,18 +68,26 @@ function main() {
   done
 }
 
-function getCpu() {
+function getCPU() {
   cpu="$(grep "model name" /proc/cpuinfo | sed 's/.*: //' | head -n 1 || echo "Unknown")"
   echo "$cpu"
 }
 
-function getGpu() {
+function getDesktop() {
+  [ -n "$XDG_CURRENT_DESKTOP" ] \
+    && { echo "$XDG_CURRENT_DESKTOP" \
+    || [ -n "$DESKTOP_SESSION" ] \
+      && echo "$DESKTOP_SESSION" \
+      || echo "Unknown"; }
+}
+
+function getGPU() {
   gpu="$(glxinfo | grep "OpenGL renderer string" | sed 's/OpenGL renderer string: //; s/ (.*//' \
     || echo "Unknown")"
   echo "$gpu"
 }
 
-function getHostName() {
+function getHostname() {
   hostName=$(hostname || cat /etc/hostname || echo "Unknown")
   echo "$hostName"
 }
@@ -81,7 +98,7 @@ function getKernel() {
   echo "$name $release"
 }
 
-function getRam() {
+function getRAM() {
   ram=$(free -h | awk '/^Mem:/ {print $2}' || echo "Unknown")
   echo "$ram"
 }
@@ -98,7 +115,7 @@ function getOperatingSystem() {
 }
 
 function getUsername() {
-  username="$(whoami || id -un || echo "$USER" || logname || echo "Unknown")"
+  username="$(whoami || id -un || logname || echo "Unknown")"
   echo "$username"
 }
 
