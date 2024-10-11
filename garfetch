@@ -37,6 +37,9 @@ function main() {
     || { echo "Error: Ascii art not found. Make sure to include the correct path to it in $CONFIG"
       exit 1; }
 
+  [ -f "./$CONFIG" ] && . "$CONFIG"
+  [ -f "~/.config/garfetch/$CONFIG" ] && . "$CONFIG"
+
   readarray -t asciiArray < "$ASCII"
 
   longestLineLength=0
@@ -46,8 +49,6 @@ function main() {
       && longestLineLength=$currentLineLength
   done
 
-  [ -f "./$CONFIG" ] && . "$CONFIG"
-  [ -f "~/.config/garfetch/$CONFIG" ] && . "$CONFIG"
   ARROW="${ARROW_COLOR}$ARROW${NC}"
   SEPARATOR="${EDGE_COLOR}$SEPARATOR${NC}"
 
