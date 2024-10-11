@@ -26,6 +26,7 @@ OPERATING_SYSTEM=true
 KERNEL=true
 DESKTOP=true
 TERMINAL=true
+TERMINAL_SHELL=true
 CPU=true
 GPU=true
 RAM=true
@@ -44,15 +45,15 @@ function main() {
       && longestLineLength=$currentLineLength
   done
 
-  [ -f "$CONFIG" ] && . "$CONFIG"
   [ -f "~/.config/garfetch/$CONFIG" ] && . "$CONFIG"
+  [ -f "./$CONFIG" ] && . "$CONFIG"
   ARROW="${ARROW_COLOR}$ARROW${NC}"
   SEPARATOR="${EDGE_COLOR}$SEPARATOR${NC}"
 
   declare -a systemInfo
 
   lastSystemInfoIndex=0
-  systemInfo[lastSystemInfoIndex]="${EDGE_COLOR}{${USERNAME_COLOR}$(getUsername)"
+  systemInfo[lastSystemInfoIndex]="${EDGE_COLOR}{${USERNAME_COLOR}$USER"
   systemInfo[lastSystemInfoIndex]+="${AT_SIGN_COLOR}@${HOSTNAME_COLOR}$(getHostname)${RED}}${NC}" \
     && ((lastSystemInfoIndex++))
   [ "$OPERATING_SYSTEM" == true ] \
@@ -66,6 +67,9 @@ function main() {
       && ((lastSystemInfoIndex++)); }
   [ "$TERMINAL" == true ] \
     && { systemInfo[lastSystemInfoIndex]="$ARROW ${TITLE_COLOR}Terminal:${NC} $(getTerminal)" \
+      && ((lastSystemInfoIndex++)); }
+  [ "$TERMINAL_SHELL" == true ] \
+    && { systemInfo[lastSystemInfoIndex]="$ARROW ${TITLE_COLOR}Shell:${NC} $(echo $SHELL | sed 's/.*\///')" \
       && ((lastSystemInfoIndex++)); }
   [ "$CPU" == true ] \
     && { systemInfo[lastSystemInfoIndex]="$ARROW ${TITLE_COLOR}CPU:${NC} $(getCPU)" \
@@ -129,6 +133,10 @@ function getRAM() {
   echo "$ram"
 }
 
+function getShell() {
+  echo "$SHELL"
+}
+
 function getOperatingSystem() {
   if . /etc/os-release; then
     echo "$PRETTY_NAME"
@@ -145,11 +153,6 @@ function getTerminal() {
     && terminal="$TERM" \
     || terminal="Unknown"
   echo "$terminal"
-}
-
-function getUsername() {
-  username="$(whoami || id -un || logname || echo "Unknown")"
-  echo "$username"
 }
 
 main
