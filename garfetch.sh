@@ -76,8 +76,8 @@ function getCPU() {
 function getDesktop() {
   [ -n "$XDG_CURRENT_DESKTOP" ] \
     && { echo "$XDG_CURRENT_DESKTOP" \
-    || [ -n "$DESKTOP_SESSION" ] \
-      && echo "$DESKTOP_SESSION" \
+    || { [ -n "$DESKTOP_SESSION" ] \
+      && echo "$DESKTOP_SESSION"; } \
       || echo "Unknown"; }
 }
 
