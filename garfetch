@@ -98,7 +98,7 @@ function main() {
     elif [ $i -gt 1 ]; then
       [ $i -lt $((${#systemInfo[@]} + 1)) ] && printf "  $SEPARATOR" \
       && [ -n "${systemInfo[i - 1]}" ] \
-      && printf  "${systemInfo[i - 1]}"
+      && printf "${systemInfo[i - 1]}"
     fi
     printf "\n"
   done
