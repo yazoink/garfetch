@@ -7,7 +7,7 @@ The only dependency is `glxinfo`. The package is called `mesa-utils` on most dis
 ## Installation
 `git clone https://github.com/yazoink/garfetch`     
 `cd garfetch`     
-`chmod +x garfetch` and copy it so somewhere in your `$PATH` or just run `./garfetch`     
+`chmod +x garfetch` and copy it so somewhere in your `$PATH` (make sure to configure the path to the ascii art correctly) or just run `./garfetch`     
 
 ## Configuration
 The script looks for `garfetch.conf` in `~/.config/garfetch` or in the same directory as the script.
