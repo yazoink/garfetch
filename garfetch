@@ -86,7 +86,7 @@ function main() {
     done
 
     printf "${ART_COLOR}%s${NC}" "$line"
-    if [ $i -eq $((${#systemInfo[@]} + 1)) ]; then
+    if [ $i -eq $((${#systemInfo[@]} + 2)) ]; then
       printf "  ${RED}%s${GREEN}%s${YELLOW}%s${BLUE}%s${MAGENTA}%s${CYAN}%s${NC}" \
         "$COLOR_SAMPLE" "$COLOR_SAMPLE" "$COLOR_SAMPLE" "$COLOR_SAMPLE" \
         "$COLOR_SAMPLE" "$COLOR_SAMPLE"
@@ -94,7 +94,7 @@ function main() {
       printf "  ${EDGE_COLOR}{${USERNAME_COLOR}%s${AT_SIGN_COLOR}@${HOSTNAME_COLOR}%s${RED}}${NC}" \
         "$USER" "$(getHostname)"
     elif [ $i -gt 1 ]; then
-      [ $i -lt $((${#systemInfo[@]} + 1)) ] \
+      [ $i -lt $((${#systemInfo[@]} + 2)) ] \
         && printf "  ${EDGE_COLOR}%s${ARROW_COLOR}%s${NC}" \
           "$SEPARATOR" "$ARROW" \
         && [ -n "${systemInfo[i - 1]}" ] \
