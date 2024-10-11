@@ -9,6 +9,8 @@ BLUE='\033[0;34m'     # Blue
 MAGENTA='\033[0;35m'  # Magenta
 CYAN='\033[0;36m'     # Cyan
 NC='\033[0m'          # No Color (reset)
+BOLD=$(tput bold)     # Bold
+NB=$(tput sgr0)       # Not Bold (reset)
 
 EDGE_COLOR=$RED
 USERNAME_COLOR=$YELLOW
@@ -51,28 +53,28 @@ function main() {
   declare -a systemInfo
 
   lastSystemInfoIndex=0
-  systemInfo[lastSystemInfoIndex]="${EDGE_COLOR}{${USERNAME_COLOR}$(getUsername)"
-  systemInfo[lastSystemInfoIndex]+="${AT_SIGN_COLOR}@${HOSTNAME_COLOR}$(getHostname)${RED}}${NC}" && ((lastSystemInfoIndex++))
+  systemInfo[lastSystemInfoIndex]="${BOLD}${EDGE_COLOR}{${USERNAME_COLOR}$(getUsername)"
+  systemInfo[lastSystemInfoIndex]+="${AT_SIGN_COLOR}@${HOSTNAME_COLOR}$(getHostname)${RED}}${NC}${NB}" && ((lastSystemInfoIndex++))
   [ "$OPERATING_SYSTEM" == true ] \
     && { systemInfo[lastSystemInfoIndex]="$ARROW ${TITLE_COLOR}Operating System:${NC}${NC} $(getOperatingSystem)" \
       && ((lastSystemInfoIndex++)); }
   [ "$KERNEL" == true ] \
-    &&  { systemInfo[lastSystemInfoIndex]="$ARROW ${TITLE_COLOR}Kernel:${NC} $(getKernel)" \
+    &&  { systemInfo[lastSystemInfoIndex]="${BOLD}$ARROW${NB} ${TITLE_COLOR}Kernel:${NC} $(getKernel)" \
       && ((lastSystemInfoIndex++)); }
   [ "$DESKTOP" == true ] \
-    && { systemInfo[lastSystemInfoIndex]="$ARROW ${TITLE_COLOR}Desktop:${NC} $(getDesktop)" \
+    && { systemInfo[lastSystemInfoIndex]="${BOLD}$ARROW${NB} ${TITLE_COLOR}Desktop:${NC} $(getDesktop)" \
       && ((lastSystemInfoIndex++)); }
   [ "$TERMINAL" == true ] \
-    && { systemInfo[lastSystemInfoIndex]="$ARROW ${TITLE_COLOR}Terminal:${NC} $(getTerminal)" \
+    && { systemInfo[lastSystemInfoIndex]="${BOLD}$ARROW${NB} ${TITLE_COLOR}Terminal:${NC} $(getTerminal)" \
       && ((lastSystemInfoIndex++)); }
   [ "$CPU" == true ] \
-    && { systemInfo[lastSystemInfoIndex]="$ARROW ${TITLE_COLOR}CPU:${NC} $(getCPU)" \
+    && { systemInfo[lastSystemInfoIndex]="${BOLD}$ARROW${NB} ${TITLE_COLOR}CPU:${NC} $(getCPU)" \
       && ((lastSystemInfoIndex++)); }
   [ "$GPU" == true ] \
-    && { systemInfo[lastSystemInfoIndex]="$ARROW ${TITLE_COLOR}GPU:${NC} $(getGPU)" \
+    && { systemInfo[lastSystemInfoIndex]="${BOLD}$ARROW${NB} ${TITLE_COLOR}GPU:${NC} $(getGPU)" \
       && ((lastSystemInfoIndex++)); }
   [ "$RAM" == true ] \
-    && { systemInfo[lastSystemInfoIndex]="$ARROW ${TITLE_COLOR}Memory:${NC} $(getRAM)" \
+    && { systemInfo[lastSystemInfoIndex]="${BOLD}$ARROW${NB} ${TITLE_COLOR}Memory:${NC} $(getRAM)" \
       && ((lastSystemInfoIndex++)); }
 
   for ((i = 0; i < ${#asciiArray[@]}; i++)); do
@@ -85,7 +87,7 @@ function main() {
 
     printf "${ART_COLOR}%s${NC}" "$line"
     [ $i -gt 0 ] \
-      && [ $i -lt $((${#systemInfo[@]} + 1)) ] && printf "  $SEPARATOR" \
+      && [ $i -lt $((${#systemInfo[@]} + 1)) ] && printf "  ${BOLD}$SEPARATOR${NB}" \
       && [ -n "${systemInfo[i - 1]}" ] \
       && printf  " ${systemInfo[i - 1]}\n" \
       || printf "\n"
