@@ -49,10 +49,6 @@ function main() {
     && { systemInfo[lastSystemInfoIndex]="Memory: $(getRAM)" \
       && ((lastSystemInfoIndex++)); }
 
-  for ((i = 0; i < ${#systemInfo[@]}; i++)) do
-    echo "$i: ${systemInfo[i]}"
-  done
-
   for ((i = 0; i < ${#asciiArray[@]}; i++)); do
     line="${asciiArray[$i]}" 
 
