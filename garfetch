@@ -20,6 +20,7 @@ ART_COLOR=$YELLOW
 
 CONFIG="garfetch.conf"
 ASCII="ascii/garfield2.txt"
+
 PRINT_USER_AT_HOST=true
 PRINT_COLOR_SAMPLE=true
 SEPARATOR="|"
