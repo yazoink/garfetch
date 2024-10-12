@@ -119,7 +119,7 @@ function getDesktop() {
   elif [ -n "$DESKTOP_SESSION" ]; then
     echo "$DESKTOP_SESSION"
   else
-    echo "UNKNOWN"
+    echo "Unknown"
   fi
 }
 
