@@ -1,4 +1,5 @@
 # garfetch
+A simple and fairly customizable system fetch written in BASH, featuring Garfield.
 ![20241012_02:16:32_screenshot](https://github.com/user-attachments/assets/96df7f36-8bf5-46d3-b1c2-0dd28931e004)
 
 ## Dependencies
