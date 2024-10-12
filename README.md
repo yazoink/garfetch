@@ -14,9 +14,16 @@ The script looks for `garfetch.conf` in `~/.config/garfetch` or in the same dire
 The default config looks like this:
 ```bash
 # path to ascii art (relative to the script's location)
+#
+# the default available options are:
+# - ascii/garfield1.txt
+# - ascii/garfield2.txt
+# - ascii/garfield3.txt
 ASCII="ascii/garfield2.txt"
 
 # decorations
+PRINT_USER_AT_HOST=true
+PRINT_COLOR_SAMPLE=true
 SEPARATOR="|"
 ARROW="-> "
 COLOR_SAMPLE="-*-"
@@ -25,15 +32,32 @@ COLOR_SAMPLE_AFTER=""
 USER_AT_HOST_BEFORE=" _-{"
 USER_AT_HOST_AFTER="}-_"
 
-# which information to print
-OPERATING_SYSTEM=true
-KERNEL=true
-DESKTOP=true
-TERMINAL=true
-TERMINAL_SHELL=true
-CPU=true
-GPU=true
-RAM=true
+# which modules/information to print
+#
+# the available options are:
+# - Distro
+# - Host
+# - Kernel
+# - Desktop
+# - Terminal
+# - Shell
+# - CPU
+# - GPU
+# - Memory
+#
+# the modules will be printed from top-to-bottom order
+# from the array below.
+MODULE_LIST=(
+  "Distro"
+  "Host"
+  "Kernel"
+  "Desktop"
+  "Terminal"
+  "Shell"
+  "CPU"
+  "GPU"
+  "Memory"
+)
 ```
 
 It's pretty self-explanatory.
