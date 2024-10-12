@@ -20,6 +20,8 @@ ART_COLOR=$YELLOW
 
 CONFIG="garfetch.conf"
 ASCII="ascii/garfield2.txt"
+PRINT_USER_AT_HOST=true
+PRINT_COLOR_SAMPLE=true
 SEPARATOR="|"
 ARROW="-> "
 COLOR_SAMPLE="-*-"
@@ -27,18 +29,22 @@ COLOR_SAMPLE_BEFORE=" "
 COLOR_SAMPLE_AFTER=" "
 USER_AT_HOST_BEFORE="_-{"
 USER_AT_HOST_AFTER="}-_"
-OPERATING_SYSTEM=true
-KERNEL=true
-DESKTOP=true
-TERMINAL=true
-TERMINAL_SHELL=true
-CPU=true
-GPU=true
-RAM=true
+
+MODULE_LIST=(
+  "Distro"
+  "Host"
+  "Kernel"
+  "Desktop"
+  "Terminal"
+  "Shell"
+  "CPU"
+  "GPU"
+  "Memory"
+)
 
 function main() {
-  [ -f "./$CONFIG" ] && . "$CONFIG"
-  [ -f "~/.config/garfetch/$CONFIG" ] && . "$CONFIG"
+  [ -f "./$CONFIG" ] && unset MODULE_LIST[*] && . "$CONFIG"
+  [ -f "$HOME/.config/garfetch/$CONFIG" ] && unset MODULE_LIST[*] && . "$CONFIG"
 
   [ -f "$ASCII" ] \
     || { echo "Error: Ascii art not found. Make sure to include the correct path to it in $CONFIG"
@@ -53,33 +59,24 @@ function main() {
       && longestLineLength=$currentLineLength
   done
 
-  declare -a systemInfo
+  declare -A systemInfoValues=(
+    ["Distro"]="getOperatingSystem"
+    ["Host"]="getHost"
+    ["Kernel"]="getKernel"
+    ["Desktop"]="getDesktop"
+    ["Terminal"]="getTerminal"
+    ["Shell"]="getShell"
+    ["CPU"]="getCPU"
+    ["GPU"]="getGPU"
+    ["Memory"]="getRAM"
+  )
 
-  lastSystemInfoIndex=1
-  [ "$OPERATING_SYSTEM" == true ] \
-    && { systemInfo[lastSystemInfoIndex]="${TITLE_COLOR}Operating System:${NC} $(getOperatingSystem)" \
-      && ((lastSystemInfoIndex++)); }
-  [ "$KERNEL" == true ] \
-    &&  { systemInfo[lastSystemInfoIndex]="${TITLE_COLOR}Kernel:${NC} $(getKernel)" \
-      && ((lastSystemInfoIndex++)); }
-  [ "$DESKTOP" == true ] \
-    && { systemInfo[lastSystemInfoIndex]="${TITLE_COLOR}Desktop:${NC} $(getDesktop)" \
-      && ((lastSystemInfoIndex++)); }
-  [ "$TERMINAL" == true ] \
-    && { systemInfo[lastSystemInfoIndex]="${TITLE_COLOR}Terminal:${NC} $(getTerminal)" \
-      && ((lastSystemInfoIndex++)); }
-  [ "$TERMINAL_SHELL" == true ] \
-    && { systemInfo[lastSystemInfoIndex]="${TITLE_COLOR}Shell:${NC} $(echo "$SHELL" | sed 's/.*\///')" \
-      && ((lastSystemInfoIndex++)); }
-  [ "$CPU" == true ] \
-    && { systemInfo[lastSystemInfoIndex]="${TITLE_COLOR}CPU:${NC} $(getCPU)" \
-      && ((lastSystemInfoIndex++)); }
-  [ "$GPU" == true ] \
-    && { systemInfo[lastSystemInfoIndex]="${TITLE_COLOR}GPU:${NC} $(getGPU)" \
-      && ((lastSystemInfoIndex++)); }
-  [ "$RAM" == true ] \
-    && { systemInfo[lastSystemInfoIndex]="${TITLE_COLOR}Memory:${NC} $(getRAM)" \
-      && ((lastSystemInfoIndex++)); }
+  declare -a systemInfo
+  for module in "${MODULE_LIST[@]}"; do
+    value="$(${systemInfoValues["$module"]})"
+    string="${TITLE_COLOR}$module:${NC} $value"
+    systemInfo+=("$string")
+  done
 
   for ((i = 0; i < ${#asciiArray[@]}; i++)); do
     line="${asciiArray[$i]}" 
@@ -90,20 +87,22 @@ function main() {
     done
 
     printf "${ART_COLOR}%s${NC}" "$line"
-    if [ $i -eq $((${#systemInfo[@]} + 2)) ]; then
-      printf "  ${EDGE_COLOR}%s${RED}%s${GREEN}%s${YELLOW}%s${BLUE}%s${MAGENTA}%s${CYAN}%s${EDGE_COLOR}%s${NC}" \
-        "$COLOR_SAMPLE_BEFORE" "$COLOR_SAMPLE" "$COLOR_SAMPLE" \
-        "$COLOR_SAMPLE" "$COLOR_SAMPLE" "$COLOR_SAMPLE" \
-        "$COLOR_SAMPLE" "$COLOR_SAMPLE_AFTER"
+
+    if [ $i -gt 1 ]; then
+      if [ $i -lt $((${#systemInfo[@]} + 2)) ]; then
+        printf "  ${EDGE_COLOR}%s${ARROW_COLOR}%s${NC}${systemInfo[i - 2]}" \
+          "$SEPARATOR" "$ARROW"
+      elif  [ $i -eq $((${#systemInfo[@]} + 2)) ]; then
+        [ "$PRINT_COLOR_SAMPLE" == true ] \
+          && printf "  ${EDGE_COLOR}%s${RED}%s${GREEN}%s${YELLOW}%s${BLUE}%s${MAGENTA}%s${CYAN}%s${EDGE_COLOR}%s${NC}" \
+            "$COLOR_SAMPLE_BEFORE" "$COLOR_SAMPLE" "$COLOR_SAMPLE" \
+            "$COLOR_SAMPLE" "$COLOR_SAMPLE" "$COLOR_SAMPLE" \
+            "$COLOR_SAMPLE" "$COLOR_SAMPLE_AFTER"
+      fi
     elif [ $i -eq 1 ]; then
-      printf "  ${EDGE_COLOR}%s${USERNAME_COLOR}%s${AT_SIGN_COLOR}@${HOSTNAME_COLOR}%s${RED}%s${NC}" \
-        "$USER_AT_HOST_BEFORE" "$USER" "$(getHostname)" "$USER_AT_HOST_AFTER"
-    elif [ $i -gt 1 ]; then
-      [ $i -lt $((${#systemInfo[@]} + 2)) ] \
-        && printf "  ${EDGE_COLOR}%s${ARROW_COLOR}%s${NC}" \
-          "$SEPARATOR" "$ARROW" \
-        && [ -n "${systemInfo[i - 1]}" ] \
-        && printf "${systemInfo[i - 1]}"
+      [ "$PRINT_USER_AT_HOST" == true ] \
+        && printf "  ${EDGE_COLOR}%s${USERNAME_COLOR}%s${AT_SIGN_COLOR}@${HOSTNAME_COLOR}%s${RED}%s${NC}" \
+          "$USER_AT_HOST_BEFORE" "$USER" "$(getHostname)" "$USER_AT_HOST_AFTER"
     fi
     printf "\n"
   done
@@ -115,17 +114,25 @@ function getCPU() {
 }
 
 function getDesktop() {
-  [ -n "$XDG_CURRENT_DESKTOP" ] \
-    && { echo "$XDG_CURRENT_DESKTOP" \
-    || { [ -n "$DESKTOP_SESSION" ] \
-      && echo "$DESKTOP_SESSION"; } \
-      || echo "Unknown"; }
+  if [ -n "$XDG_CURRENT_DESKTOP" ]; then
+    echo "$XDG_CURRENT_DESKTOP"
+  elif [ -n "$DESKTOP_SESSION" ]; then
+    echo "$DESKTOP_SESSION"
+  else
+    echo "UNKNOWN"
+  fi
 }
 
 function getGPU() {
   gpu="$(glxinfo | grep "OpenGL renderer string" | sed 's/OpenGL renderer string: //; s/ (.*//' \
     || echo "Unknown")"
   echo "$gpu"
+}
+
+function getHost() {
+  [ -f "/sys/devices/virtual/dmi/id/product_name" ] \
+    && cat "/sys/devices/virtual/dmi/id/product_name" \
+    || echo "Unknown"
 }
 
 function getHostname() {
@@ -142,6 +149,12 @@ function getKernel() {
 function getRAM() {
   ram=$(free -h | awk '/^Mem:/ {print $2}' || echo "Unknown")
   echo "$ram"
+}
+
+function getShell() {
+  [ -n "$SHELL" ] \
+    && echo "$SHELL" | sed 's/.*\///' \
+    || echo "Unknown"
 }
 
 function getOperatingSystem() {
