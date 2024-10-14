@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# dependencies: glxinfo
+# dependencies: pciutils (GPU), MPC (MPD)
 
 RED='\033[0;31m'
 GREEN='\033[0;32m'
@@ -128,8 +128,7 @@ function getDesktop() {
 }
 
 function getGPU() {
-  gpu="$(glxinfo | grep "OpenGL renderer string" | sed 's/OpenGL renderer string: //; s/ (.*//' \
-    || echo "Unknown")"
+  gpu="$(lspci | grep VGA | awk -F "[" '{print $3}' | sed 's/].*//' || echo 'Unknown')"
   echo "$gpu"
 }
 
