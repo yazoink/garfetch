@@ -8,7 +8,7 @@ function install() {
   [ -d "$CONFIG_PATH" ] && rm -rf "$CONFIG_PATH"
   mkdir -p "$CONFIG_PATH"
   cp -r ascii "$CONFIG_PATH/ascii"
-  sed -i 's/ASCII=\".*\"/ASCII=\"~\/.config\/ascii\/garfield2.txt/\"' garfetch.conf
+  sed -i "s/ASCII=\".*\"/ASCII=\"$CONFIG_PATH\/garfetch/ascii/garfield2.txt\"/" garfetch.conf
   cp garfetch.conf "$CONFIG_PATH/garfetch.conf"
   echo "installed garfetch."
 }
