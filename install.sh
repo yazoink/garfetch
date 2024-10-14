@@ -18,7 +18,7 @@ function install() {
   [ ! -d "$CONFIG_PATH/ascii" ] && sudo cp -r ascii "$CONFIG_PATH/ascii"
   [ ! -d "$USER_CONFIG_PATH/ascii" ] && cp -r ascii "$USER_CONFIG_PATH/ascii"
   [ ! -f "$CONFIG_PATH/garfetch.conf" ] \
-    && sudo cp garfetch.conf "$USER_CONFIG_PATH/garfetch.conf"
+    && sudo cp garfetch.conf "$CONFIG_PATH/garfetch.conf"
   [ ! -f "$USER_CONFIG_PATH/garfetch.conf" ] \
     && cp garfetch.conf "$USER_CONFIG_PATH/garfetch.conf"
   echo "installed garfetch."
