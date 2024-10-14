@@ -3,14 +3,14 @@ CONFIG_PATH="/home/$USER/.config/garfetch"
 
 function install() {
   chmod +x garfetch
-  echo "Copying garfetch to $INSTALL_PATH"
   [ -f $INSTALL_PATH ] && sudo rm "$INSTALL_PATH"
   sudo cp garfetch "$INSTALL_PATH"
   [ -d "$CONFIG_PATH" ] && rm -rf "$CONFIG_PATH"
   mkdir -p "$CONFIG_PATH"
-  sudo cp -r ascii "$CONFIG_PATH/ascii"
+  cp -r ascii "$CONFIG_PATH/ascii"
   sed -i 's/ASCII=\".*\"/~\/.config\/ascii\/garfield2.txt/' garfetch.conf
   cp garfetch.conf "$CONFIG_PATH/garfetch.conf"
+  echo "installed garfetch."
 }
 
 function usage() {
