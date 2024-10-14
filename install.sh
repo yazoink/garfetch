@@ -8,9 +8,9 @@ function clean() {
 }
 
 function install() {
-  chmod +x garfetch
   [ -f $INSTALL_PATH ] && sudo rm "$INSTALL_PATH"
   sudo cp garfetch "$INSTALL_PATH"
+  sudo chmod +x "$INSTALL_PATH"
   [ ! -d "$CONFIG_PATH" ] && mkdir -p "$CONFIG_PATH"
   [ ! -d "$CONFIG_PATH/ascii" ] && cp -r ascii "$CONFIG_PATH/ascii"
   [ ! -f "$CONFIG_PATH/garfetch.conf" ] \
