@@ -51,7 +51,7 @@ function main() {
     && source "$HOME/.config/garfetch/$CONFIG"
 
   [ -f "$ASCII" ] \
-    || { echo "Error: Ascii art not found. Make sure to include the correct path to it in $CONFIG"
+    || { echo "Error: Ascii art at \"$ASCII\" not found. Make sure to include the correct path to it in $CONFIG"
       exit 1; }
 
   readarray -t asciiArray < "$ASCII"
