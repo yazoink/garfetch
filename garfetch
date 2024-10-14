@@ -23,7 +23,7 @@ CONFIG="garfetch.conf"
 # default config options
 PRINT_USER_AT_HOST=true
 PRINT_COLOR_SAMPLE=true
-ASCII="ascii/garfield2.txt"
+ASCII="/etc/garfetch/ascii/garfield2.txt"
 SEPARATOR="|"
 ARROW="-> "
 COLOR_SAMPLE="-*-"
@@ -45,7 +45,8 @@ MODULE_LIST=(
 )
 
 function main() {
-  [ -f "./$CONFIG" ] && source "$CONFIG"
+  [ -f "/etc/garfetch/$CONFIG" ] \
+    && source "/etc/garfetch/$CONFIG"
   [ -f "$HOME/.config/garfetch/$CONFIG" ] \
     && source "$HOME/.config/garfetch/$CONFIG"
 
