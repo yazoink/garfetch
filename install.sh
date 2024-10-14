@@ -1,3 +1,5 @@
+#!/bin/bash
+
 INSTALL_PATH="/usr/bin/garfetch"
 CONFIG_PATH="/home/$USER/.config/garfetch"
 
