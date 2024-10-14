@@ -12,7 +12,8 @@ The GPU module requires the `lspci` command from `pciutils` and the MPD module r
 ### Quick
 `git clone https://github.com/yazoink/garfetch`     
 `cd garfetch`  
-`bash install.sh`    
+`chmod +x install.sh`     
+`./install.sh`    
 
 and to uninstall, run `bash install.sh --remove`
 
