@@ -81,36 +81,39 @@ function main() {
     string="${TITLE_COLOR}$module:${NC} $value"
     systemInfo+=("$string")
   done
+  
+  { [ $PRINT_USER_AT_HOST == true ] && offset=2; } || offset=1
 
   len=${#asciiArray[@]}
-  [ $((${#systemInfo[@]} + 2)) -gt $len ] && len=$((${#systemInfo[@]} + 2))
+  [ $((${#systemInfo[@]} + offset)) -gt $len ] && len=$((${#systemInfo[@]} + offset))
 
-  for ((i=0; i<=len; i++)); do
-    line="${asciiArray[$i]}" 
+  [ $PRINT_COLOR_SAMPLE == false ] && ((len--))
 
-    spaces=$((longestLineLength - ${#line}))
+  for ((i=0; i<=len;i++)); do
+    [ -n "${asciiArray[i]}" ] && \
+      printf "${ART_COLOR}%s${NC}" "${asciiArray[i]}"
+
+    spaces=$((longestLineLength - ${#asciiArray[i]}))
     for ((j=0; j<spaces; j++)); do
-      line+=" "
+      printf " "
     done
 
-    printf "${ART_COLOR}%s${NC}" "$line"
-
-    if [ $i -gt 1 ]; then
-      if [ $i -lt $((${#systemInfo[@]} + 2)) ]; then
-        printf "  ${EDGE_COLOR}%s${ARROW_COLOR}%s${NC}${systemInfo[i - 2]}" \
-          "$SEPARATOR" "$ARROW"
-      elif  [ $i -eq $((${#systemInfo[@]} + 2)) ]; then
-        [ "$PRINT_COLOR_SAMPLE" == true ] \
-          && printf "  ${EDGE_COLOR}%s${RED}%s${GREEN}%s${YELLOW}%s${BLUE}%s${MAGENTA}%s${CYAN}%s${EDGE_COLOR}%s${NC}" \
+    [ $i -gt 0 ] && {
+      if [ $i -eq 1 ] && [ $PRINT_USER_AT_HOST == true ]; then
+        printf "  ${EDGE_COLOR}%s${USERNAME_COLOR}%s${AT_SIGN_COLOR}@${HOSTNAME_COLOR}%s${RED}%s${NC}" \
+          "$USER_AT_HOST_BEFORE" "${USER:-$(whoami)}" "${HOSTNAME:-$(hostname)}" "$USER_AT_HOST_AFTER"
+      else
+        if [ $i -eq $len ] && [ $PRINT_COLOR_SAMPLE == true ]; then
+          printf "  ${EDGE_COLOR}%s${RED}%s${GREEN}%s${YELLOW}%s${BLUE}%s${MAGENTA}%s${CYAN}%s${EDGE_COLOR}%s${NC}" \
             "$COLOR_SAMPLE_BEFORE" "$COLOR_SAMPLE" "$COLOR_SAMPLE" \
             "$COLOR_SAMPLE" "$COLOR_SAMPLE" "$COLOR_SAMPLE" \
             "$COLOR_SAMPLE" "$COLOR_SAMPLE_AFTER"
+        else
+          printf "  ${EDGE_COLOR}%s${ARROW_COLOR}%s${NC}${systemInfo[i - $offset]}" \
+            "$SEPARATOR" "$ARROW"
+        fi
       fi
-    elif [ $i -eq 1 ]; then
-      [ "$PRINT_USER_AT_HOST" == true ] \
-        && printf "  ${EDGE_COLOR}%s${USERNAME_COLOR}%s${AT_SIGN_COLOR}@${HOSTNAME_COLOR}%s${RED}%s${NC}" \
-        "$USER_AT_HOST_BEFORE" "${USER:-$(whoami)}" "${HOSTNAME:-$(hostname)}" "$USER_AT_HOST_AFTER"
-    fi
+    }
     printf "\n"
   done
 }
