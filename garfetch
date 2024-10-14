@@ -82,7 +82,10 @@ function main() {
     systemInfo+=("$string")
   done
 
-  for ((i = 0; i < ${#asciiArray[@]}; i++)); do
+  len=${#asciiArray[@]}
+  [ $((${#systemInfo[@]} + 2)) -gt $len ] && len=$((${#systemInfo[@]} + 2))
+
+  for ((i=0; i<=len; i++)); do
     line="${asciiArray[$i]}" 
 
     spaces=$((longestLineLength - ${#line}))
