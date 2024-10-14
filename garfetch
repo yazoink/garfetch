@@ -20,9 +20,34 @@ ART_COLOR=$YELLOW
 
 CONFIG="garfetch.conf"
 
+# default config options
+PRINT_USER_AT_HOST=true
+PRINT_COLOR_SAMPLE=true
+ASCII="ascii/garfield2.txt"
+SEPARATOR="|"
+ARROW="-> "
+COLOR_SAMPLE="-*-"
+COLOR_SAMPLE_BEFORE="\`"
+COLOR_SAMPLE_AFTER=""
+USER_AT_HOST_BEFORE=" _-{"
+USER_AT_HOST_AFTER="}-_"
+MODULE_LIST=(
+  "Distro"
+  "Host"
+  "Kernel"
+  "Desktop"
+  "Terminal"
+  "Shell"
+  "CPU"
+  "GPU"
+  "Memory"
+  #"MPD"
+)
+
 function main() {
-  [ -f "./$CONFIG" ] && source "$CONFIG"
-  [ -f "$HOME/.config/garfetch/$CONFIG" ] && source "$HOME/.config/garfetch/$CONFIG"
+  [ -f "./$CONFIG" ] && { source "$CONFIG"; } \
+    || { [ -f "$HOME/.config/garfetch/$CONFIG" ] \
+      && source "$HOME/.config/garfetch/$CONFIG"; }
 
   [ -f "$ASCII" ] \
     || { echo "Error: Ascii art not found. Make sure to include the correct path to it in $CONFIG"
@@ -40,13 +65,14 @@ function main() {
   declare -A systemInfoValues=(
     ["Distro"]="getOperatingSystem"
     ["Host"]="getHost"
-    ["Kernel"]="getKernel"
+    ["Kernel"]="echo $(uname -s) $(uname -r)"
     ["Desktop"]="getDesktop"
     ["Terminal"]="getTerminal"
     ["Shell"]="getShell"
     ["CPU"]="getCPU"
     ["GPU"]="getGPU"
     ["Memory"]="getRAM"
+    ["MPD"]="mpc current"
   )
 
   declare -a systemInfo
@@ -60,7 +86,7 @@ function main() {
     line="${asciiArray[$i]}" 
 
     spaces=$((longestLineLength - ${#line}))
-    for ((j = 0; j < spaces; j++)); do
+    for ((j=0; j<spaces; j++)); do
       line+=" "
     done
 
@@ -80,7 +106,7 @@ function main() {
     elif [ $i -eq 1 ]; then
       [ "$PRINT_USER_AT_HOST" == true ] \
         && printf "  ${EDGE_COLOR}%s${USERNAME_COLOR}%s${AT_SIGN_COLOR}@${HOSTNAME_COLOR}%s${RED}%s${NC}" \
-          "$USER_AT_HOST_BEFORE" "$USER" "$(getHostname)" "$USER_AT_HOST_AFTER"
+        "$USER_AT_HOST_BEFORE" "${USER:-$(whoami)}" "${HOSTNAME:-$(hostname)}" "$USER_AT_HOST_AFTER"
     fi
     printf "\n"
   done
@@ -111,17 +137,6 @@ function getHost() {
   [ -f "/sys/devices/virtual/dmi/id/product_name" ] \
     && cat "/sys/devices/virtual/dmi/id/product_name" \
     || echo "Unknown"
-}
-
-function getHostname() {
-  hostName=$(hostname || cat /etc/hostname || echo "Unknown")
-  echo "$hostName"
-}
-
-function getKernel() {
-  name="$(uname -s)"
-  release="$(uname -r)"
-  echo "$name $release"
 }
 
 function getRAM() {
