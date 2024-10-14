@@ -1,7 +1,8 @@
 # garfetch
 A simple and fairly customizable system fetch written in bash, featuring Garfield.
 ![20241012_02:16:32_screenshot](https://github.com/user-attachments/assets/96df7f36-8bf5-46d3-b1c2-0dd28931e004)
-![20241012_13:29:55_screenshot](https://github.com/user-attachments/assets/1ceac294-ab93-49d1-820e-1a0e7a750cac)
+![20241015_00:27:42_screenshot](https://github.com/user-attachments/assets/dd10f9ca-1f22-4327-abd5-7ed346af44ba)
+
 
 
 
