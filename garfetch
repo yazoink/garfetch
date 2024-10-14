@@ -68,7 +68,7 @@ function main() {
     ["Kernel"]="echo $(uname -s) $(uname -r)"
     ["Desktop"]="getDesktop"
     ["Terminal"]="getTerminal"
-    ["Shell"]="getShell"
+    ["Shell"]="basename $SHELL"
     ["CPU"]="getCPU"
     ["GPU"]="getGPU"
     ["Memory"]="getRAM"
@@ -113,7 +113,7 @@ function main() {
 }
 
 function getCPU() {
-  cpu="$(grep "model name" /proc/cpuinfo | sed 's/.*: //' | head -n 1 || echo "Unknown")"
+  cpu="$(grep "model name" /proc/cpuinfo | sed 's/.*: //' | head -n 1)"
   echo "$cpu"
 }
 
@@ -142,14 +142,8 @@ function getHost() {
 }
 
 function getRAM() {
-  ram=$(free -h | awk '/^Mem:/ {print $2}' || echo "Unknown")
+  ram="$(free -h | awk '/^Mem:/ {print $3}')/$(free -h | awk '/^Mem:/ {print $2}')"
   echo "$ram"
-}
-
-function getShell() {
-  [ -n "$SHELL" ] \
-    && echo "$SHELL" | sed 's/.*\///' \
-    || echo "Unknown"
 }
 
 function getOperatingSystem() {
@@ -158,7 +152,7 @@ function getOperatingSystem() {
   elif . /etc/lsb-release; then
     echo "$DISTRIB_DESCRIPTION"
   else
-    operatingSystem="$(uname -o || echo "Unknown")"
+    operatingSystem="$(uname -o)"
     echo "$operatingSystem"
   fi
 }
