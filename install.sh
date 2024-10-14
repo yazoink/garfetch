@@ -6,7 +6,7 @@ USER_CONFIG_PATH="/home/$USER/.config/garfetch"
 
 function clean() {
   [ -d "$CONFIG_PATH" ] && sudo rm -rf "$CONFIG_PATH"
-  [ -d "$USER_CONFIG_PATH" ] && sudo rm -rf "$USER_CONFIG_PATH"
+  [ -d "$USER_CONFIG_PATH" ] && rm -rf "$USER_CONFIG_PATH"
 }
 
 function install() {
@@ -26,7 +26,7 @@ function install() {
 
 function remove() {
   sudo rm "$INSTALL_PATH"
-  echo "uninstalled garfetch"
+  echo "uninstalled garfetch."
 }
 
 function usage() {
