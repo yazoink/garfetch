@@ -22,7 +22,7 @@ CONFIG="garfetch.conf"
 
 function main() {
   [ -f "./$CONFIG" ] && source "$CONFIG"
-  [ -f "$HOME/.config/garfetch/$CONFIG" ] && source "$CONFIG"
+  [ -f "$HOME/.config/garfetch/$CONFIG" ] && source "$HOME/.config/garfetch/$CONFIG"
 
   [ -f "$ASCII" ] \
     || { echo "Error: Ascii art not found. Make sure to include the correct path to it in $CONFIG"
