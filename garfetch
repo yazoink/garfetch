@@ -128,7 +128,10 @@ function getDesktop() {
 }
 
 function getGPU() {
-  gpu="$(lspci | grep VGA | awk -F "[" '{print $3}' | sed 's/].*//' || echo 'Unknown')"
+  # stole this from https://github.com/ufuayk/brofetch
+  gpu="$(lspci | grep -i 'vga\|3d' | grep -i 'nvidia\|amd\|intel' \
+    | head -n 1 | awk -F ': ' '{print $2}' | \
+    sed 's/.*\[\(.*\)\].*/\1/' | tr -d '\n\r')"
   echo "$gpu"
 }
 
