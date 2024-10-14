@@ -27,7 +27,7 @@ To see all the options for the installer script, run `bash install.sh -h`.
 `cp garfetch.conf ~/.config/garfetch`
 
 ## Configuration
-The script looks for `garfetch.conf` in `~/.config/garfetch` or in the same directory as the script.
+The script looks for `garfetch.conf` in `~/.config/garfetch` or `/etc/garfetch`.
 The [default config](https://github.com/yazoink/garfetch/blob/main/garfetch.conf) contains documentation for all of the options.
 
 ## To-Do
