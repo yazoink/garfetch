@@ -9,7 +9,7 @@ function install() {
   [ -d "$CONFIG_PATH" ] && rm -rf "$CONFIG_PATH"
   mkdir -p "$CONFIG_PATH"
   sudo cp ascii "$CONFIG_PATH/ascii"
-  sed -i "s/ASCII=\".*\"/~/$CONFIG_PATH" garfetch.conf
+  sed -i "s/ASCII=\".*\"/~/$CONFIG_PATH/ascii/garfield2.txt" garfetch.conf
   cp garfetch.conf "$CONFIG_PATH/garfetch.conf"
 }
 
