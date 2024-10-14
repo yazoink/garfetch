@@ -9,6 +9,14 @@ A simple and fairly customizable system fetch written in BASH, featuring Garfiel
 The only dependency is `glxinfo`. The package is called `mesa-utils` on most distros.
 
 ## Installation
+### Quick
+`git clone https://github.com/yazoink/garfetch`     
+`cd garfetch`  
+`bash install.sh`    
+
+and to uninstall, run `bash install.sh --remove`
+
+### Manual
 `git clone https://github.com/yazoink/garfetch`     
 `cd garfetch`     
 `chmod +x garfetch` and copy it so somewhere in your `$PATH` (make sure to configure the path to the ascii art correctly) or just run `./garfetch`     
