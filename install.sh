@@ -15,6 +15,7 @@ function install() {
 
 function remove() {
   sudo rm "$INSTALL_PATH"
+  rm -rf "$CONFIG_PATH"
   echo "uninstalled garfetch"
 }
 
