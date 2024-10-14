@@ -13,6 +13,11 @@ function install() {
   echo "installed garfetch."
 }
 
+function remove() {
+  sudo rm "$INSTALL_PATH"
+  echo "uninstalled garfetch"
+}
+
 function usage() {
   echo "Usage: ./install.sh [option]"
   echo "Options:"
