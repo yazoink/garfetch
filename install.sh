@@ -5,7 +5,7 @@ CONFIG_PATH="/etc/garfetch"
 USER_CONFIG_PATH="/home/$USER/.config/garfetch"
 
 function clean() {
-  [ -d "$CONFIG_PATH" ] && rm -rf "$CONFIG_PATH"
+  [ -d "$CONFIG_PATH" ] && sudo rm -rf "$CONFIG_PATH"
   [ -d "$USER_CONFIG_PATH" ] && sudo rm -rf "$USER_CONFIG_PATH"
 }
 
