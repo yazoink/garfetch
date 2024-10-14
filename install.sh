@@ -6,22 +6,22 @@ USER_CONFIG_PATH="/home/$USER/.config/garfetch"
 
 function clean() {
   [ -d "$CONFIG_PATH" ] && rm -rf "$CONFIG_PATH"
-  [ -d "$USER_CONFIG_PATH" ] && rm -rf "$USER_CONFIG_PATH"
+  [ -d "$USER_CONFIG_PATH" ] && sudo rm -rf "$USER_CONFIG_PATH"
 }
 
 function install() {
   [ -f $INSTALL_PATH ] && sudo rm "$INSTALL_PATH"
   sudo cp garfetch "$INSTALL_PATH"
   sudo chmod +x "$INSTALL_PATH"
-  [ ! -d "$CONFIG_PATH" ] && mkdir -p "$CONFIG_PATH"
+  [ ! -d "$CONFIG_PATH" ] && sudo mkdir -p "$CONFIG_PATH"
   [ ! -d "$USER_CONFIG_PATH" ] && mkdir -p "$USER_CONFIG_PATH"
-  [ ! -d "$CONFIG_PATH/ascii" ] && cp -r ascii "$CONFIG_PATH/ascii"
+  [ ! -d "$CONFIG_PATH/ascii" ] && sudo cp -r ascii "$CONFIG_PATH/ascii"
   [ ! -d "$USER_CONFIG_PATH/ascii" ] && cp -r ascii "$USER_CONFIG_PATH/ascii"
   [ ! -f "$CONFIG_PATH/garfetch.conf" ] \
-    && cp garfetch.conf "$USER_CONFIG_PATH/garfetch.conf"
+    && sudo cp garfetch.conf "$USER_CONFIG_PATH/garfetch.conf"
   [ ! -f "$USER_CONFIG_PATH/garfetch.conf" ] \
-    && cp garfetch.conf "$CONFIG_PATH/garfetch.conf"
-  sed -i "s|ASCII=\".*\"|ASCII=\"$CONFIG_PATH\/ascii\/garfield2.txt\"|" \
+    && cp garfetch.conf "$USER_CONFIG_PATH/garfetch.conf"
+  sudo sed -i "s|ASCII=\".*\"|ASCII=\"$CONFIG_PATH\/ascii\/garfield2.txt\"|" \
     "$CONFIG_PATH/garfetch.conf"
   sed -i "s|ASCII=\".*\"|ASCII=\"$USER_CONFIG_PATH\/ascii\/garfield2.txt\"|" \
     "$USER_CONFIG_PATH/garfetch.conf"
