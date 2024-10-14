@@ -21,10 +21,6 @@ function install() {
     && sudo cp garfetch.conf "$USER_CONFIG_PATH/garfetch.conf"
   [ ! -f "$USER_CONFIG_PATH/garfetch.conf" ] \
     && cp garfetch.conf "$USER_CONFIG_PATH/garfetch.conf"
-  sudo sed -i "s|ASCII=\".*\"|ASCII=\"$CONFIG_PATH\/ascii\/garfield2.txt\"|" \
-    "$CONFIG_PATH/garfetch.conf"
-  sed -i "s|ASCII=\".*\"|ASCII=\"$USER_CONFIG_PATH\/ascii\/garfield2.txt\"|" \
-    "$USER_CONFIG_PATH/garfetch.conf"
   echo "installed garfetch."
 }
 
