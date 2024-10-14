@@ -37,9 +37,9 @@ function usage() {
 
 case "$1" in
   "-i" | "--install" | "") install ;;
-  "-ci" | "--clean-install") clean && install ;;
+  "-ci" | "--clean-install") clean; install ;;
   "-r" | "--remove") remove ;;
-  "-cr" | "--clean-remove") clean && remove ;;
+  "-cr" | "--clean-remove") clean; remove ;;
   "-h" | "--help") usage ;;
   *) usage && exit 1;;
 esac
