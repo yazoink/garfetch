@@ -84,7 +84,7 @@ function main() {
   
   { [ $PRINT_USER_AT_HOST == true ] && offset=2; } || offset=1
 
-    len=$((${#asciiArray[@]} - 1))
+  len=$((${#asciiArray[@]} - 1))
   [ $((${#systemInfo[@]} + offset)) -gt $len ] && len=$((${#systemInfo[@]} + offset))
 
   [ $PRINT_COLOR_SAMPLE == false ] && ((len--))
