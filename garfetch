@@ -19,33 +19,10 @@ TITLE_COLOR=$BLUE
 ART_COLOR=$YELLOW
 
 CONFIG="garfetch.conf"
-ASCII="ascii/garfield2.txt"
-
-PRINT_USER_AT_HOST=true
-PRINT_COLOR_SAMPLE=true
-SEPARATOR="|"
-ARROW="-> "
-COLOR_SAMPLE="-*-"
-COLOR_SAMPLE_BEFORE=" "
-COLOR_SAMPLE_AFTER=" "
-USER_AT_HOST_BEFORE="_-{"
-USER_AT_HOST_AFTER="}-_"
-
-MODULE_LIST=(
-  "Distro"
-  "Host"
-  "Kernel"
-  "Desktop"
-  "Terminal"
-  "Shell"
-  "CPU"
-  "GPU"
-  "Memory"
-)
 
 function main() {
-  [ -f "./$CONFIG" ] && unset MODULE_LIST[*] && . "$CONFIG"
-  [ -f "$HOME/.config/garfetch/$CONFIG" ] && unset MODULE_LIST[*] && . "$CONFIG"
+  [ -f "./$CONFIG" ] && . "$CONFIG"
+  [ -f "$HOME/.config/garfetch/$CONFIG" ] && . "$CONFIG"
 
   [ -f "$ASCII" ] \
     || { echo "Error: Ascii art not found. Make sure to include the correct path to it in $CONFIG"

@@ -5,7 +5,6 @@ function install() {
   chmod +x garfetch
   [ -f $INSTALL_PATH ] && sudo rm "$INSTALL_PATH"
   sudo cp garfetch "$INSTALL_PATH"
-  sudo sed -i "s|CONFIG=\".*\"|CONFIG=\"$CONFIG_PATH\/garfetch.conf\"|" "$INSTALL_PATH"
   [ -d "$CONFIG_PATH" ] && rm -rf "$CONFIG_PATH"
   mkdir -p "$CONFIG_PATH"
   cp -r ascii "$CONFIG_PATH/ascii"
