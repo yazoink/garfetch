@@ -34,4 +34,4 @@ The [default config](https://github.com/yazoink/garfetch/blob/main/garfetch.conf
 NixOS module.
 
 ## Credits
-The ascii art was taken from [here](https://www.asciiart.eu/comics/garfield).
+The ascii art from `garfield1.txt`, `garfield2.txt` and `garfield2.txt` was taken from [here](https://www.asciiart.eu/comics/garfield) and `garfies.txt` is an official ascii garfies by [garfies](https://x.com/GARFIES_).
